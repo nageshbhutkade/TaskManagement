@@ -1,58 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A complete REST CRUD API for task management built with Laravel, following PSR-12 coding standards and SOLID principles.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- ✅ Complete CRUD operations for tasks
+- ✅ Form Request validation
+- ✅ API Resources for consistent responses
+- ✅ Proper error handling with HTTP status codes
+- ✅ Factory and Seeder for test data
+- ✅ PSR-12 coding standards
+- ✅ SOLID principles implementation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Task Fields
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `title` (required, string, max 255)
+- `description` (optional, text)
+- `status` (enum: pending, in_progress, completed)
+- `due_date` (optional, date)
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd example-app
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install dependencies**
+   ```bash
+   composer install
+   ```
 
-## Laravel Sponsors
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Database configuration**
+   Update `.env` file with your database credentials:
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=task_management
+   DB_USERNAME=root
+   DB_PASSWORD=your_password
+   ```
 
-### Premium Partners
+5. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+6. **Seed database (optional)**
+   ```bash
+   php artisan db:seed --class=TaskSeeder
+   ```
 
-## Contributing
+7. **Start the server**
+   ```bash
+   php artisan serve
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## API Endpoints
 
-## Code of Conduct
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/tasks` | Get all tasks |
+| POST | `/api/tasks` | Create a new task |
+| GET | `/api/tasks/{id}` | Get a specific task |
+| PUT/PATCH | `/api/tasks/{id}` | Update a specific task |
+| DELETE | `/api/tasks/{id}` | Delete a specific task |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## API Usage Examples
 
-## Security Vulnerabilities
+### Create Task
+```bash
+curl -X POST http://localhost:8000/api/tasks \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{
+    "title": "Complete Laravel API",
+    "description": "Build a complete REST API",
+    "status": "pending",
+    "due_date": "2024-01-15"
+  }'
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Get All Tasks
+```bash
+curl -X GET http://localhost:8000/api/tasks \
+  -H "Accept: application/json"
+```
+
+### Update Task
+```bash
+curl -X PUT http://localhost:8000/api/tasks/1 \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"status": "completed"}'
+```
+
+### Delete Task
+```bash
+curl -X DELETE http://localhost:8000/api/tasks/1 \
+  -H "Accept: application/json"
+```
+
+## Testing
+
+### Run Feature Tests
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test class
+php artisan test --filter=TaskApiTest
+
+# Run with coverage
+php artisan test --coverage
+```
+
+### Test Coverage
+The project includes comprehensive feature tests covering:
+- ✅ Create task (success case)
+- ✅ Create task (validation failure)
+- ✅ List all tasks
+- ✅ Update existing task
+- ✅ Delete task
+
+### Generate Test Data
+```bash
+# Create 5 tasks using factory
+php artisan test:factory
+
+# Seed database with sample tasks
+php artisan db:seed --class=TaskSeeder
+```
+
+### Using Tinker
+```bash
+php artisan tinker
+
+# Create tasks
+Task::factory()->count(5)->create();
+
+# Create specific status tasks
+Task::factory()->pending()->create();
+Task::factory()->inProgress()->create();
+Task::factory()->completed()->create();
+```
+
+## Architecture
+
+- **Controllers**: Handle HTTP requests and responses
+- **Form Requests**: Validate incoming data
+- **API Resources**: Format API responses consistently
+- **Services**: Business logic layer
+- **Models**: Data layer with Eloquent ORM
+- **Factories**: Generate test data
+- **Seeders**: Populate database with sample data
+
+## Status Codes
+
+- `200` - Success
+- `201` - Created
+- `204` - No Content (Delete)
+- `404` - Not Found
+- `422` - Validation Error
+- `500` - Server Error
 
 ## License
 
