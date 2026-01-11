@@ -1,0 +1,64 @@
+<div class="container">
+  <h1>Task Management</h1>
+  
+  <!-- Create Task Form -->
+  <div class="form-section">
+    <h2>Create New Task</h2>
+    <form (ngSubmit)="createTask()">
+      <div class="form-group">
+        <label>Title:</label>
+        <input type="text" [(ngModel)]="newTask.title" name="title" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Description:</label>
+        <textarea [(ngModel)]="newTask.description" name="description"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Status:</label>
+        <select [(ngModel)]="newTask.status" name="status">
+          <option value="pending">Pending</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Due Date:</label>
+        <input type="date" [(ngModel)]="newTask.due_date" name="due_date">
+      </div>
+      
+      <button type="submit" class="btn-primary">Create Task</button>
+    </form>
+  </div>
+  
+  <!-- Tasks List -->
+  <div class="tasks-section">
+    <h2>Tasks ({{ tasks.length }})</h2>
+    
+    <div *ngIf="tasks.length === 0" class="no-tasks">
+      No tasks found. Create your first task above!
+    </div>
+    
+    <div *ngFor="let task of tasks" class="task-card">
+      <div class="task-header">
+        <h3>{{ task.title }}</h3>
+        <span class="status" [class]="'status-' + task.status">{{ task.status }}</span>
+      </div>
+      
+      <p *ngIf="task.description">{{ task.description }}</p>
+      <p *ngIf="task.due_date" class="due-date">Due: {{ task.due_date }}</p>
+      
+      <div class="task-actions">
+        <select (change)="updateTaskStatus(task, $any($event.target).value)" [value]="task.status">
+          <option value="pending">Pending</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+        
+        <button (click)="deleteTask(task.id!)" class="btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
