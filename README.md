@@ -11,6 +11,9 @@ A complete REST CRUD API for task management built with Laravel, following PSR-1
 - ✅ Factory and Seeder for test data
 - ✅ PSR-12 coding standards
 - ✅ SOLID principles implementation
+- ✅ Angular frontend with task management interface
+- ✅ Real-time task status updates
+- ✅ Responsive design
 
 ## Task Fields
 
@@ -20,6 +23,8 @@ A complete REST CRUD API for task management built with Laravel, following PSR-1
 - `due_date` (optional, date)
 
 ## Installation
+
+### Backend Setup (Laravel API)
 
 1. **Clone the repository**
    ```bash
@@ -59,10 +64,47 @@ A complete REST CRUD API for task management built with Laravel, following PSR-1
    php artisan db:seed --class=TaskSeeder
    ```
 
-7. **Start the server**
+7. **Start the Laravel server**
    ```bash
    php artisan serve
    ```
+   API will be available at: `http://localhost:8000`
+
+### Frontend Setup (Angular)
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the Angular development server**
+   ```bash
+   npm start
+   ```
+   Frontend will be available at: `http://localhost:4200`
+
+### Running Both Applications
+
+1. **Terminal 1 - Start Laravel API:**
+   ```bash
+   cd example-app
+   php artisan serve
+   ```
+
+2. **Terminal 2 - Start Angular Frontend:**
+   ```bash
+   cd example-app/frontend
+   npm start
+   ```
+
+3. **Access the application:**
+   - Frontend: `http://localhost:4200`
+   - API: `http://localhost:8000/api/tasks`
 
 ## API Endpoints
 
@@ -152,6 +194,21 @@ Task::factory()->pending()->create();
 Task::factory()->inProgress()->create();
 Task::factory()->completed()->create();
 ```
+
+## Frontend Features
+
+### Task Management Interface
+- **Create Tasks**: Form to add new tasks with title, description, status, and due date
+- **View Tasks**: Display all tasks in organized cards with status badges
+- **Update Status**: Dropdown to change task status (pending → in_progress → completed)
+- **Delete Tasks**: Remove tasks with confirmation
+- **Real-time Updates**: Automatic refresh after CRUD operations
+
+### Technology Stack
+- **Backend**: Laravel 11 with MySQL
+- **Frontend**: Angular 21 with TypeScript
+- **Styling**: Custom CSS with responsive design
+- **HTTP Client**: Angular HttpClient for API communication
 
 ## Architecture
 
